@@ -134,7 +134,7 @@ B_1\begin{vmatrix}
 \mathbf{x_{21}} \\
 \mathbf{x_{31}} \\
 \end{vmatrix} +
-{e}^{{B_1}^2+1}\begin{vmatrix}
+{e}^{B_1^2+1}\begin{vmatrix}
 \mathbf{x^2_{11}} \\
 \mathbf{x^2_{21}} \\
 \mathbf{x^2_{31}} \\
