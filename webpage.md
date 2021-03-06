@@ -129,7 +129,7 @@ ax.minorticks_on()
 10. Which of the following forms is *not linear in the weights* ?
 
 $$
-{{B}_1}\begin{vmatrix}
+B_1\begin{vmatrix}
 \mathbf{x_{11}} \\
 \mathbf{x_{21}} \\
 \mathbf{x_{31}} \\
