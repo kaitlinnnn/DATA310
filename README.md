@@ -46,17 +46,14 @@ Final Answer: 8.3244
 ```
 
 
-
 4. In practice we determine the weights for linear regression with the "X_test" data.
 
          False.
 
 
-
 5. Polynomial regression is best suited for functional relationships that are non-linear in weights.
 
          False
-
 
 
 6. Linear regression, multiple linear regression, and polynomial regression can be all fit using LinearRegression() from the sklearn.linear_model module in Python.
@@ -87,12 +84,9 @@ print(len(X_train))
 Output: 23
 ```
 
-
-
 8. The gradient descent method does not need any hyperparameters.
 
          False
-
 
 
 9. To create and display a figure using matplotlib.pyplot that has visual elements (scatterplot, labeling of the axes, display of grid), in what order would the below code need to be executed?
@@ -117,7 +111,6 @@ ax.minorticks_on()
 ```
 
 
-
 10. Which of the following forms is *not linear in the weights* ?
 
 $$
@@ -140,4 +133,4 @@ B_1\begin{vmatrix}
 
 $$
 
-
+                  The option with "e" and exponents is not linear.
