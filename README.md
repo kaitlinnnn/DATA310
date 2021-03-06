@@ -1,11 +1,3 @@
-Table of Contents
-
-[toc]
-
-
-
-
-
 ## Lab 1
 
 ## Lab 2
@@ -14,13 +6,13 @@ Table of Contents
 
 1. An "ordinary least squares" (or OLS) model seeks to minimize the differences between your true and estimated dependent variable.
 
-   True
+         True
 
 
 
 2. Do you agree or disagree with the following statement: In a linear regression model, all feature must correlate with the noise in order to obtain a good fit.
 
-   Disagree, the noise refers to features that do no correlate well, so less noise means there is a better fit.
+         Disagree, the noise refers to features that do no correlate well, so less noise means there is a better fit.
 
    
 
@@ -38,7 +30,7 @@ del df["questions"]
 y = df['Grade'].values
 X = df.loc[ : , (df.columns != 'Grade') ].values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y,  			      test_size=0.25, random_state=1234)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1234)
 
 lin_reg = LinearRegression()
 lin_reg.fit(X_train, y_train)
@@ -57,19 +49,19 @@ Final Answer: 8.3244
 
 4. In practice we determine the weights for linear regression with the "X_test" data.
 
-   False.
+         False.
 
 
 
 5. Polynomial regression is best suited for functional relationships that are non-linear in weights.
 
-   False
+         False
 
 
 
 6. Linear regression, multiple linear regression, and polynomial regression can be all fit using LinearRegression() from the sklearn.linear_model module in Python.
 
-   True
+         True
 
 
 
@@ -86,7 +78,7 @@ del df["questions"]
 y = df['Grade'].values
 X = df.loc[ : , (df.columns != 'Grade') ].values
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, 						test_size=0.25, random_state=1234)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1234)
 
 print(len(X_train))
 ```
@@ -99,7 +91,7 @@ Output: 23
 
 8. The gradient descent method does not need any hyperparameters.
 
-   False
+         False
 
 
 
@@ -129,6 +121,7 @@ ax.minorticks_on()
 10. Which of the following forms is *not linear in the weights* ?
 
 $$
+
 B_1\begin{vmatrix}
 \mathbf{x_{11}} \\
 \mathbf{x_{21}} \\
@@ -144,5 +137,7 @@ B_1\begin{vmatrix}
 \mathbf{x_{22}} \\
 \mathbf{x_{32}} \\
 \end{vmatrix}
+
 $$
+
 
