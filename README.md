@@ -4,19 +4,19 @@
 
 ## Lab 3
 
-1. An "ordinary least squares" (or OLS) model seeks to minimize the differences between your true and estimated dependent variable.
+(1). An "ordinary least squares" (or OLS) model seeks to minimize the differences between your true and estimated dependent variable.
 
          True
 
 
 
-2. Do you agree or disagree with the following statement: In a linear regression model, all feature must correlate with the noise in order to obtain a good fit.
+(2). Do you agree or disagree with the following statement: In a linear regression model, all feature must correlate with the noise in order to obtain a good fit.
 
          Disagree, the noise refers to features that do no correlate well, so less noise means there is a better fit.
 
    
 
-3. Write your own code to import L3Data.csv into python as a data frame. Then save the feature values 'days online','views','contributions','answers' into a matrix x and consider 'Grade' values as the dependent variable. If you separate the data into Train & Test with test_size=0.25 and random_state = 1234. If we use the features of x to build a multiple linear regression model for predicting y then the root mean square error on the test data is close to:
+(3). Write your own code to import L3Data.csv into python as a data frame. Then save the feature values 'days online','views','contributions','answers' into a matrix x and consider 'Grade' values as the dependent variable. If you separate the data into Train & Test with test_size=0.25 and random_state = 1234. If we use the features of x to build a multiple linear regression model for predicting y then the root mean square error on the test data is close to:
 
 ```python
 import pandas as pd
@@ -46,23 +46,23 @@ Final Answer: 8.3244
 ```
 
 
-4. In practice we determine the weights for linear regression with the "X_test" data.
+(4). In practice we determine the weights for linear regression with the "X_test" data.
 
          False.
 
 
-5. Polynomial regression is best suited for functional relationships that are non-linear in weights.
+(5). Polynomial regression is best suited for functional relationships that are non-linear in weights.
 
          False
 
 
-6. Linear regression, multiple linear regression, and polynomial regression can be all fit using LinearRegression() from the sklearn.linear_model module in Python.
+(6). Linear regression, multiple linear regression, and polynomial regression can be all fit using LinearRegression() from the sklearn.linear_model module in Python.
 
          True
 
 
 
-7. Write your own code to import L3Data.csv into python as a data frame. Then save the feature values 'days online','views','contributions','answers' into a matrix x and consider 'Grade' values as the dependent variable. If you separate the data into Train & Test with test_size=0.25 and random_state = 1234, then the number of observations we have in the Train data is
+(7). Write your own code to import L3Data.csv into python as a data frame. Then save the feature values 'days online','views','contributions','answers' into a matrix x and consider 'Grade' values as the dependent variable. If you separate the data into Train & Test with test_size=0.25 and random_state = 1234, then the number of observations we have in the Train data is
 
 ```python
 import pandas as pd
@@ -84,12 +84,12 @@ print(len(X_train))
 Output: 23
 ```
 
-8. The gradient descent method does not need any hyperparameters.
+(8). The gradient descent method does not need any hyperparameters.
 
          False
 
 
-9. To create and display a figure using matplotlib.pyplot that has visual elements (scatterplot, labeling of the axes, display of grid), in what order would the below code need to be executed?
+(9). To create and display a figure using matplotlib.pyplot that has visual elements (scatterplot, labeling of the axes, display of grid), in what order would the below code need to be executed?
 
 ```python
 # 1
@@ -111,7 +111,7 @@ ax.minorticks_on()
 ```
 
 
-10. Which of the following forms is *not linear in the weights* ?
+(10). Which of the following forms is *not linear in the weights* ?
 
 $$
 
@@ -133,4 +133,4 @@ B_1\begin{vmatrix}
 
 $$
 
-                  The option with "e" and exponents is not linear.
+                  The option with the "e" and the exponents preceding the matrices is not linear.
