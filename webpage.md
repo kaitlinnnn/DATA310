@@ -139,7 +139,7 @@ B_1\begin{vmatrix}
 \mathbf{x^2_{21}} \\
 \mathbf{x^2_{31}} \\
 \end{vmatrix} +
-({{B}_1})^4\begin{vmatrix}
+(B_1)^4\begin{vmatrix}
 \mathbf{x_{12}} \\
 \mathbf{x_{22}} \\
 \mathbf{x_{32}} \\
