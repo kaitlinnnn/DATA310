@@ -314,6 +314,36 @@ Output:
 
 (8). On the Boston housing data set if we consider the Elastic Net model with 'alpha=0.05' and 'l1_ratio=0.9' then the 10-fold cross-validated prediction error is: (for the 10-fold cross-validation shuffle you should use random_state=1234, your final answer should include only the first 4 decimals that you get from the code)
 ```python
+import numpy as np
+import pandas as pd
+
+from sklearn.datasets import load_boston
+from sklearn.linear_model import Lasso as lso
+from sklearn.model_selection import KFold
+from sklearn.metrics import mean_squared_error as MSE
+
+data = load_boston()
+df = pd.DataFrame(data=data.data, columns=data.feature_names)
+y = data.target
+x = data.data
+
+lasso = lso(alpha=0.03)
+
+kf = KFold(n_splits=10, random_state=1234, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = lasso.fit(X_train, y_train)
+    y_pred = lasso.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
 ```
 output:
 ```
