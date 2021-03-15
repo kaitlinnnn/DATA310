@@ -224,3 +224,111 @@ B_1\begin{vmatrix}
 $$
 
                   The option with the "e" and the exponents preceding the matrices is not linear.
+
+## Lab 4
+
+(1). Regularization is defined as
+
+         the minimization of the sum of squared residuals subject to a constraint on the weights (aka coefficients)
+
+(2). The regularization with the square of an L2 distance may improve the results compared to OLS when the number of features is higher than the number of observations.
+
+         true
+
+(3). The L1 norm always yields shorter distances compared to the Euclidean norm.
+
+         false
+
+(4). Typically, the regularization is achieved by
+
+         minimizing the sum of squared residuals times the average of the L1 norm of the coefficients.
+
+(5). A regularization method that facilitates variable selection (estimating some coefficients as zero) is
+
+         lasso
+
+(6). Write your own Python code to import the Boston housing data set (from the sklearn library) and scale the data (not the target) by z-scores. If we use all the features with the Linear Regression to predict the target variable then the root mean squared error (RMSE) is:
+```python
+```
+
+(7). On the Boston housing data set if we consider the Lasso model with 'alpha=0.03' then the 10-fold cross-validated prediction error is: (for the 10-fold cross-validation shuffle you should use random_state=1234, your final answer should include only the first 4 decimals that you get from the code)
+```python
+import numpy as np
+import pandas as pd
+
+from sklearn.datasets import load_boston
+from sklearn.linear_model import Lasso as lso
+from sklearn.model_selection import KFold
+from sklearn.metrics import mean_squared_error as MSE
+
+data = load_boston()
+df = pd.DataFrame(data=data.data, columns=data.feature_names)
+y = data.target
+x = data.data
+
+lasso = lso(alpha=0.03)
+
+kf = KFold(n_splits=10, random_state=1234, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = lasso.fit(X_train, y_train)
+    y_pred = lasso.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
+```
+Output:
+```
+4.837045365806388
+```
+
+(8). On the Boston housing data set if we consider the Elastic Net model with 'alpha=0.05' and 'l1_ratio=0.9' then the 10-fold cross-validated prediction error is: (for the 10-fold cross-validation shuffle you should use random_state=1234, your final answer should include only the first 4 decimals that you get from the code)
+```python
+```
+output:
+```
+```
+
+(9). If we create all quadratic polynomial (degree=2) features based on the z-scores of the original features and then apply OLS, the root mean squared error is:
+```python
+import numpy as np
+import pandas as pd
+import math
+from sklearn.datasets import load_boston
+from sklearn.metrics import mean_squared_error as MSE
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.preprocessing import StandardScaler
+
+data = load_boston()
+df = pd.DataFrame(data=data.data, columns=data.feature_names)
+y = data.target
+
+ss = StandardScaler()
+xs = pd.DataFrame(ss.fit_transform(df), columns=df.columns)
+
+pf = PolynomialFeatures(degree=2)
+xp = pf.fit_transform(xs)
+
+model = LinearRegression()
+model.fit(xp, y)
+ypp = model.predict(xp)
+
+rmse = np.sqrt(MSE(y,ypp))
+print(rmse)
+```
+output:
+```
+2.448373257727784
+```
+
+(10). If we create all quadratic polynomial (degree=2) features based on the z-scores of the original features and then apply the Ridge regression with alpha=0.1 and we create a Quantile-Quantile plot for the residuals then the result shows that  the obtained residuals pretty much follow a normal distribution.
+
+         false
