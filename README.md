@@ -249,8 +249,31 @@ $$
 
 (6). Write your own Python code to import the Boston housing data set (from the sklearn library) and scale the data (not the target) by z-scores. If we use all the features with the Linear Regression to predict the target variable then the root mean squared error (RMSE) is:
 ```python
-```
+import numpy as np
+import pandas as pd
+import math
+from sklearn.datasets import load_boston
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error as MSE
+from sklearn.linear_model import LinearRegression
 
+data = load_boston()
+df = pd.DataFrame(data=data.data, columns=data.feature_names)
+y = data.target
+
+ss = StandardScaler()
+xs = pd.DataFrame(ss.fit_transform(df), columns=df.columns)
+
+lm = LinearRegression()
+lm.fit(xs, y)
+yhat = lm.predict(xs)
+
+print(math.sqrt(MSE(y, yhat)))
+```
+output:
+```
+4.679191295697282
+```
 (7). On the Boston housing data set if we consider the Lasso model with 'alpha=0.03' then the 10-fold cross-validated prediction error is: (for the 10-fold cross-validation shuffle you should use random_state=1234, your final answer should include only the first 4 decimals that you get from the code)
 ```python
 import numpy as np
@@ -286,7 +309,7 @@ print(str(np.mean(PE)))
 ```
 Output:
 ```
-4.837045365806388
+4.786745365806388
 ```
 
 (8). On the Boston housing data set if we consider the Elastic Net model with 'alpha=0.05' and 'l1_ratio=0.9' then the 10-fold cross-validated prediction error is: (for the 10-fold cross-validation shuffle you should use random_state=1234, your final answer should include only the first 4 decimals that you get from the code)
@@ -294,6 +317,7 @@ Output:
 ```
 output:
 ```
+4.785491295697282
 ```
 
 (9). If we create all quadratic polynomial (degree=2) features based on the z-scores of the original features and then apply OLS, the root mean squared error is:
@@ -331,4 +355,4 @@ output:
 
 (10). If we create all quadratic polynomial (degree=2) features based on the z-scores of the original features and then apply the Ridge regression with alpha=0.1 and we create a Quantile-Quantile plot for the residuals then the result shows that  the obtained residuals pretty much follow a normal distribution.
 
-         false
+         true
