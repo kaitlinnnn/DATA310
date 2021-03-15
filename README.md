@@ -1,4 +1,94 @@
 ## Lab 1
+(1). What would be the most commonly used level of measurement if the variable is the temperature of the air?
+
+         interval
+         
+(2). Write a Python code to import the data file 'L1data.csv' (introduced in Lecture 1) and code an imputation for replacing the NaN values in the "Age" column   with the median of the column. The NaN instances are replaced by:
+```python
+import numpy as np
+import pandas as pd
+from sklearn.impute import SimpleImputer
+
+data = pd.read_csv("L1Data.csv")
+
+imputing_configuration = SimpleImputer(missing_values = np.nan, strategy = 'median')
+imp = imputing_configuration.fit(data[["Age"]])
+
+# The following replaces the NaNs in the "Age" column with the median value
+data[["Age"]] = imp.transform(data[["Age"]]).ravel()
+data.head(13)
+```
+answer:
+```
+21.0
+```
+(3). In Bayesian inference the "likelihood" represents:
+
+         How probable is the data (evidence) given that our hypothesis is true.
+                  
+(4). The main goal of Monte Carlo simulations is to solve problems by approximating a probability value via carefully designed simulations.
+
+         true
+         
+(5). Assume that during a pandemic 15% of the population gets infected with a respiratory virus while about 35% of the population has some general respiratory symptoms such as sneezing, stuffy nose etc. Assume that approximately 30% of the people infected with the virus are asymptomatic. What is the probability that someone who has the symptom actually has the disease?
+```
+P(A | B) = ( P( B | A) * P(A) ) / P(B)
+
+P(A) = symptoms = .35
+P(B) = infected = .15
+P(B | A) = infected -> symptomatic  = .70
+
+P(A | B) = symptoms -> infected ( .70 * .15 ) / .35 = 0.3
+```     
+answer:
+```
+30%
+```
+
+(6). A Monte Carlo simulation should never include more than 1000 repetitions of the experiment.
+
+         false
+         
+(7). One can decide that the number of iterations in a Monte Carlo simulation was sufficient by visualizing a Probability-Iteration plot and determining where the probability graph approaches a horizontal line.
+
+         true
+         
+(8). Assume we play a slightly bit different version of the original Monte Hall problem such as having four doors one car and three goats. The rules of the game are the same, the contestant chooses one door (that remains closed) and one of the other doors who had a goat behind it is being opened. The contestant has to make a choice as to stick with the original choice or rather switch for one of the remaining closed doors. Write a Python code to approximate the winning probabilities, for each choice, by the means of Monte Carlo simulations. The probability that the contestant will ultimately win by sticking with the original choice is closer to:
+
+```
+ You Pick  |  Prize Door  |  Dont Switch  |  Switch
+    1              1             Win          Lose
+    1              2             Lose         Win
+    1              3             Lose         Win
+    1              4             Lose         Win
+    2              1             Lose         Win
+    2              2             Win          Lose
+    2              3             Lose         Win
+    2              4             Lose         Win
+    3              1             Lose         Win
+    3              2             Lose         Win
+    3              3             Win          Lose
+    3              4             Lose         Win
+    4              1             Lose         Win
+    4              2             Lose         Win
+    4              3             Lose         Win
+    4              4             Win          Lose
+```
+answer:
+```
+5/16 scenarios are loses when the contestant switches doors.
+5/16 = 0.3125
+= 25%
+```
+         
+(9). In Python one of the libraries that we can use for generating repeated experiments in Monte Carlo simulations is:
+
+         random
+         
+(10). In Python, for creating a random permutation of an array whose entries are nominal variables we used:
+
+         random.shuffle
+         
 
 ## Lab 2
 
