@@ -1,12 +1,19 @@
 ## Table of Contents
-[Lab 1](https://kaitlinnnn.github.io/DATA310/#lab-1)
-[Lab 2](https://kaitlinnnn.github.io/DATA310/#lab-2)
-[Lab 3](https://kaitlinnnn.github.io/DATA310/#lab-3)
-[Lab 4](https://kaitlinnnn.github.io/DATA310/#lab-4)
-[Midterm Project](https://kaitlinnnn.github.io/DATA310/#midterm-project)
-[Lab 5](https://kaitlinnnn.github.io/DATA310/#lab-5)
-[Lab 6](https://kaitlinnnn.github.io/DATA310/#lab-6)
-[Lab 7](https://kaitlinnnn.github.io/DATA310/#lab-7)
+[Lab 1](https://kaitlinnnn.github.io/DATA310/#lab-1)  
+
+[Lab 2](https://kaitlinnnn.github.io/DATA310/#lab-2)  
+
+[Lab 3](https://kaitlinnnn.github.io/DATA310/#lab-3)  
+
+[Lab 4](https://kaitlinnnn.github.io/DATA310/#lab-4)  
+
+[Midterm Project](https://kaitlinnnn.github.io/DATA310/#midterm-project)  
+
+[Lab 5](https://kaitlinnnn.github.io/DATA310/#lab-5)  
+
+[Lab 6](https://kaitlinnnn.github.io/DATA310/#lab-6)  
+
+[Lab 7](https://kaitlinnnn.github.io/DATA310/#lab-7)  
 
 
 ## Lab 1
