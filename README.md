@@ -1,3 +1,14 @@
+## Table of Contents
+[Lab 1](https://kaitlinnnn.github.io/DATA310/#lab-1)
+[Lab 2](https://kaitlinnnn.github.io/DATA310/#lab-2)
+[Lab 3](https://kaitlinnnn.github.io/DATA310/#lab-3)
+[Lab 4](https://kaitlinnnn.github.io/DATA310/#lab-4)
+[Midterm Project](https://kaitlinnnn.github.io/DATA310/#midterm-project)
+[Lab 5](https://kaitlinnnn.github.io/DATA310/#lab-5)
+[Lab 6](https://kaitlinnnn.github.io/DATA310/#lab-6)
+[Lab 7](https://kaitlinnnn.github.io/DATA310/#lab-7)
+
+
 ## Lab 1
 (1). What would be the most commonly used level of measurement if the variable is the temperature of the air?
 
@@ -91,6 +102,16 @@ answer:
          
 
 ## Lab 2
+(1).
+(2).
+(3).
+(4).
+(5).
+(6).
+(7).
+(8).
+(9).
+(10).
 
 ## Lab 3
 
@@ -386,3 +407,331 @@ output:
 (10). If we create all quadratic polynomial (degree=2) features based on the z-scores of the original features and then apply the Ridge regression with alpha=0.1 and we create a Quantile-Quantile plot for the residuals then the result shows that  the obtained residuals pretty much follow a normal distribution.
 
          true
+
+## Midterm Project
+
+(1). Import the weatherHistory.csv into a data frame. How many observations do we have?
+```python
+import pandas as pd
+import numpy as np
+
+data = pd.read_csv('weatherHistory.csv')
+data.shape
+```
+output:
+```
+(96453, 12)
+```
+
+(2). In the weatherHistory.csv data how many features are just nominal variables?
+```python
+data.head(30)
+```
+answer:
+```
+3
+```
+
+(3). If we want to use all the unstandardized observations for 'Temperature (C)' and predict the Humidity the resulting root mean squared error is (just copy the first 4 decimal places):
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+
+X = data[['Temperature (C)']].values
+y = data[['Humidity']].values
+
+lm = LinearRegression()
+
+# X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+model = lm.fit(X, y)
+
+y_pred = lm.predict(X)
+
+print(np.sqrt(metrics.mean_squared_error(y, y_pred)))
+```
+output:
+```
+0.1514437964005473
+```
+
+(4). If the input feature is the Temperature and the target is the Humidity and we consider 20-fold cross validations with random_state=2020, the Ridge model with alpha =0.1 and standardize the input train and the input test data. The average RMSE on the test sets is (provide your answer with the first 6 decimal places):
+```python
+from sklearn.datasets import load_boston
+from sklearn.linear_model import Ridge as rge
+from sklearn.model_selection import KFold
+from sklearn.metrics import mean_squared_error as MSE
+
+X = data['Temperature (C)'].values
+y = data['Humidity'].values
+
+df = pd.DataFrame(X, y)
+
+ridge = rge(alpha=0.1)
+
+kf = KFold(n_splits=20, random_state=2020, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = ridge.fit(X_train, y_train)
+    y_pred = ridge.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
+```
+output:
+```
+0.151438251487059
+```
+
+(5). Suppose we want to use Random Forrest with 100 trees and max_depth=50 to predict the Humidity with the Apparent Temperature and we want to estimate the root mean squared error by using 10-cross validations (random_state=1693) and computing the average of RMSE on the test sets. The result we get is  (provide your answer with the first 6 decimal places):
+```python
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import KFold
+
+X = data['Apparent Temperature (C)'].values
+y = data['Humidity'].values
+
+df = pd.DataFrame(X, y)
+
+model = RandomForestRegressor(n_estimators=100,max_depth=50)
+kf = KFold(n_splits=10, random_state=1693, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
+```
+output:
+```
+0.14350762697638758
+```
+
+(6). Suppose we want use polynomial features of degree 6 and we want to predict the Humidity with the Apparent Temperature and we want to estimate the root mean squared error by using 10-fold cross-validations (random_state=1693) and computing the average of RMSE on the test sets. The result we get is  (provide your answer with the first 5 decimal places):
+```python
+from sklearn.preprocessing import PolynomialFeatures
+
+X = data['Apparent Temperature (C)'].values
+y = data['Humidity'].values
+  
+pf = PolynomialFeatures(degree = 6)
+x_poly = pf.fit_transform(X.reshape(-1,1))
+
+df = pd.DataFrame(x_poly, y)
+
+model = LinearRegression()
+kf = KFold(n_splits=10, random_state=1693, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
+```
+output:
+```
+0.1434659719585773
+```
+
+(7). If the input feature is the Temperature and the target is the Humidity and we consider 10-fold cross validations with random_state=1234, the Ridge model with alpha =0.2. Inside the cross-validation loop standardize the input data. The average RMSE on the test sets is (provide your answer with the first 4 decimal places):
+```python
+from sklearn.datasets import load_boston
+from sklearn.linear_model import Ridge as rdg
+from sklearn.model_selection import KFold
+from sklearn.metrics import mean_squared_error as MSE
+
+X = data['Temperature (C)'].values
+y = data['Humidity'].values
+
+df = pd.DataFrame(X, y)
+
+ridge = rdg(alpha=0.2)
+
+kf = KFold(n_splits=10, random_state=1234, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = ridge.fit(X_train, y_train)
+    y_pred = ridge.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
+```
+output:
+```
+0.15144461669728831
+```
+
+(8). Suppose we use polynomial features of degree 6 and we want to predict the Temperature by using 'Humidity','Wind Speed (km/h)','Pressure (millibars)','Wind Bearing (degrees)' We want to estimate the root mean squared error by using 10-fold cross-validations (random_state=1234) and computing the average of RMSE on the test sets. The result we get is  (provide your answer with the first 4 decimal places):
+```python
+from sklearn.preprocessing import PolynomialFeatures
+
+X = data.loc[:, ['Humidity','Wind Speed (km/h)','Pressure (millibars)','Wind Bearing (degrees)']].values
+y = data['Temperature (C)'].values
+  
+pf = PolynomialFeatures(degree = 6)
+x_poly = pf.fit_transform(X)
+
+df = pd.DataFrame(x_poly, y)
+
+model = LinearRegression()
+kf = KFold(n_splits=10, random_state=1234, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
+```
+output:
+```
+6.119201734148136
+```
+
+(9). Suppose we use Random Forest with 100 trees and max_depth=50 and we want to predict the Temperature by using 'Humidity','Wind Speed (km/h)','Pressure (millibars)','Wind Bearing (degrees)' We want to estimate the root mean squared error by using 10-fold cross-validations (random_state=1234) and computing the average of RMSE on the test sets. The result we get is  (provide your answer with the first 4 decimal places):
+```python
+X = data.loc[:, ['Humidity','Wind Speed (km/h)','Pressure (millibars)','Wind Bearing (degrees)']].values
+y = data['Temperature (C)'].values
+
+df = pd.DataFrame(X, y)
+
+model = RandomForestRegressor(n_estimators=100,max_depth=50)
+kf = KFold(n_splits=10, random_state=1234, shuffle=True)
+
+i = 0
+PE = []
+
+for train_index, test_index in kf.split(df):
+    X_train = df.values[train_index]
+    y_train = y[train_index]
+    X_test = df.values[test_index]
+    y_test = y[test_index]
+    model = model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    PE.append(np.sqrt(MSE(y_test, y_pred)))
+
+print(str(np.mean(PE)))
+```
+output:
+```
+5.831136223794951
+```      
+
+(10). If we visualize a scatter plot for Temperature (on the horizontal axis) vs Humidity (on the vertical axis) the overall trend seems to be
+```python
+data.plot.scatter(x = 'Temperature (C)', y = 'Humidity')
+```
+answer:
+```
+decreasing
+```
+
+## Lab 5
+
+(1). In the case of  kernel Support Vector Machines for classification, such as  the radial basis function kernel,  one or more landmark points are considered by the algorithm.
+
+
+(2). A hard margin SVM is appropriate for data which is not linearly separable.
+
+(3). In K-nearest neighbors, all observations that fall within a circle with radius of K are included in the estimation for a new point.
+
+(4). For the breast cancer data (from sklearn library), if you choose a test size of 0.25 (25% of your data), with a random_state of 1693, how many observations are in your training set?
+```python
+import numpy as np
+import pandas as pd
+
+from sklearn.datasets import load_breast_cancer
+
+from sklearn.model_selection import train_test_split
+
+data = load_breast_cancer()
+
+X = data.data
+y = data.target
+
+df = pd.DataFrame(data = X, columns = y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1693)
+
+print(len(X_train))
+```
+output:
+```
+```
+
+(5). Kernel SVM is only applicable if you have at least 3 independent variables (3 dimensions).
+
+(6). Using your Kernel SVM model with a radial basis function kernel, predict the classification of a tumor if it has a radius mean of 16.78 and a texture mean of 17.89.
+
+(7). Using your logistic model, predict the probability a tumor is malignant if it has a radius mean of 15.78 and a texture mean of 17.89.
+
+(8). Using your nearest neighbor classifier with k=5 and weights='uniform', predict if a tumor is benign or malignant if the Radius Mean  is 17.18, and the Texture Mean is 8.65
+
+(9). Consider a RandomForest classifier with 100 trees, max depth of 5 and random state 1234. From the data consider only the "mean radius" and the "mean texture" as the input features. If you apply a 10-fold stratified cross-validation and estimate the mean AUC (based on the receiver operator characteristics curve) the answer is
+
+(10). What is one reason simple linear regression (OLS) is not well suited to calculating the probability of discrete cases?
+
+(11). When applying the K - Nearest Neighbors classifier we always get better results if the weights are changed from 'uniform' to 'distance'.
+
+## Lab 6
+
+(1).
+(2).
+(3).
+(4).
+(5).
+(6).
+(7).
+(8).
+(9).
+(10).
+
+## Lab 7
+(1).
+(2).
+(3).
+(4).
+(5).
+(6).
+(7).
+(8).
+(9).
+(10).
