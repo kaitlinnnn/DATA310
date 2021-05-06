@@ -720,18 +720,110 @@ output:
 
 ## Lab 6
 
-(1).
-(2).
-(3).
-(4).
-(5).
-(6).
-(7).
-(8).
-(9).
-(10).
+(1). A tree with no depth restriction (an infinite maximum depth) will always attempt to create only pure nodes.
+```
+true
+```
+
+(2). Classification Tree models can be helpful if your data illustrates non-linearity.
+```
+true
+```
+
+(3). In the RandomForestClassifier, what does the n_estimators define?
+```
+The number of trees to include in the forest.
+```
+
+(4). In the lab, based on the test dataset, which model predicted the most false negatives?  Use a max depth of 5 for your trees, and the random state = 1693.  For the random forest classifier, n_estimators should be 1000.
+```
+Naive Bayes
+```
+
+(5). In the lab, what would be considered a "False Positive"?
+```
+When the model classified something as Malignant, when it was in fact Benign.
+```
+
+(6). Naive Bayes classifiers are probabilistic.
+```
+true
+```
+
+(7). The root node of a classification tree is...
+```
+A node which contains all data points.
+```
+
+(8). What is soft classification?
+```
+A probability-based classification, where an observation is assigned a probability of class membership for each class.
+```
+
+(9). What is the Posterior Probability in a Bayesian approach to classification?
+```
+The probability you are solving for, such as the the probability that the response variable  belongs to a particular class given the data.
+```
+
+(10). In a two-class classification the confusion matrix helps with determining
+```
+The number of true positives, false positives, true negatives and false negatives.
+```
+
+(11). The biological function of the "Axon" is represented by what element of a neural network?
+```
+The outputs from each neuron along the synapse.
+```
+
+(12). Match each term to it's correct definition, in the context of a neural network.
+```
+Neuron - Node in which an activation function is applied
+Hidden Layer - A set of neurons that are applied at the same time, going left to right in the network.
+Cost function - Measurement of how close predictions are to true values.
+Back propagation - Information on accuracy being used to adjust weights or other model parameters.
+Gradient Descent - Method for reducing cost function to a minimum.
+```
+
+(13). What is an advantage of stochastic gradient descent, as contrasted to traditional gradient descent?
+```
+It is less likely to get stuck at suboptimal local minima.
+```
+
+(14). If we retain only two input features, such as "mean radius" and "mean texture" and apply the Gaussian Naive Bayes model for classification, then the average accuracy determined on a 10-fold cross validation with random_state = 1693 is (do not use the % notation, just copy the first 4 decimals)
+
+output:
+```
+0.8805
+```
+
+(15). From the data retain only two input features, such as "mean radius" and "mean texture" and apply the Random Froest model for classification with 100 trees, max depth of 7 and random_state=1693; The average accuracy determined on a 10-fold cross validation with the same random state is (do not use the % notation, just copy the first 4 decimals)
+
+output:
+```
+0.8804
+```
+
+(16). From the data retain only two input features, such as "mean radius" and "mean texture" we build an Artificial Neural Network for classification that has three hidden layers with 16, 8 and 4 neurons respectively.
+
+Assume that the neurons in the hidden layer have the rectified linear activation ('relu') and the kernel initializer uses the random normal distribution. Assume the output layer has only one neuron with 'sigmoid' activation. 
+
+You will compile the model with 
+```
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+and fit the model with 150 epochs and 
+
+validation_split=0.25,batch_size=10,shuffle=False
+```
+ The average accuracy determined on a 10-fold cross validation (random state=1693) is closer to:
+
+answer:
+```
+0.89
+```
 
 ## Lab 7
+
 (1). If we use RandomForest (random_state=310) max_depth=10 and 1000 trees for ranking the importance of the input features the top three features (in decreasing order) are:
 ```python
 import numpy as np
