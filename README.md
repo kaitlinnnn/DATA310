@@ -732,13 +732,280 @@ output:
 (10).
 
 ## Lab 7
-(1).
-(2).
-(3).
+(1). If we use RandomForest (random_state=310) max_depth=10 and 1000 trees for ranking the importance of the input features the top three features (in decreasing order) are:
+```python
+import numpy as np
+import pandas as pd
+
+from sklearn import datasets
+
+# Declare the columns names 
+columns = 'age gender bmi map tc ldl hdl tch ltg glu'.split()  
+    
+# Call the diabetes dataset from sklearn 
+diabetes = datasets.load_diabetes()  
+ 
+# load the dataset as a pandas data frame 
+df = pd.DataFrame(diabetes.data, columns=columns)  
+      
+# define the target variable (dependent variable) as y
+y = diabetes.target 
+
+# define independent variable as X
+X = pd.DataFrame(diabetes.data, columns=columns)
+
+from sklearn.ensemble import RandomForestRegressor
+from matplotlib import pyplot
+
+model = RandomForestRegressor(random_state=310, max_depth=10, n_estimators = 1000)
+model.fit(X, y)
+
+importance = model.feature_importances_
+
+pyplot.bar(columns, importance)
+pyplot.show()
+```
+answer:
+```
+ltg, bmi, map
+```
+
+(2). For the diabetes dataset you worked on the previous question, apply stepwise regression with add/drop p-values both set to 0.001. The model selected has the following input variables:
+```python
+import statsmodels.api as sm
+
+# Implementation of stepwise regression
+def stepwise_selection(X, y, 
+                       initial_list=[], 
+                       threshold_in=0.001, 
+                       threshold_out = 0.001, 
+                       verbose=True):
+    """ Perform a forward-backward feature selection 
+    based on p-value from statsmodels.api.OLS
+    Arguments:
+        X - pandas.DataFrame with candidate features
+        y - list-like with the target
+        initial_list - list of features to start with (column names of X)
+        threshold_in - include a feature if its p-value < threshold_in
+        threshold_out - exclude a feature if its p-value > threshold_out
+        verbose - whether to print the sequence of inclusions and exclusions
+    Returns: list of selected features 
+    Always set threshold_in < threshold_out to avoid infinite looping.
+    See https://en.wikipedia.org/wiki/Stepwise_regression for the details """
+    
+    included = list(initial_list)
+    while True:
+        changed=False
+        # forward step
+        excluded = list(set(X.columns)-set(included))
+        new_pval = pd.Series(index=excluded)
+        for new_column in excluded:
+            model = sm.OLS(y, sm.add_constant(pd.DataFrame(X[included+[new_column]]))).fit()
+            new_pval[new_column] = model.pvalues[new_column]
+        best_pval = new_pval.min()
+        if best_pval < threshold_in:
+            best_feature = new_pval.idxmin()
+            included.append(best_feature)
+            changed=True
+            if verbose:
+                print('Add  {:30} with p-value {:.6}'.format(best_feature, best_pval))
+
+        # backward step
+        model = sm.OLS(y, sm.add_constant(pd.DataFrame(X[included]))).fit()
+        # use all coefs except intercept
+        pvalues = model.pvalues.iloc[1:]
+        worst_pval = pvalues.max() # null if pvalues is empty
+        if worst_pval > threshold_out:
+            changed=True
+            worst_feature = pvalues.idxmax()
+            included.remove(worst_feature)
+            if verbose:
+                print('Drop {:30} with p-value {:.6}'.format(worst_feature, worst_pval))
+        if not changed:
+            break
+    return included
+
+answer = stepwise_selection(X,y,[],0.001,0.001)
+print(answer)
+```
+output:
+```
+Add  bmi                            with p-value 3.46601e-42
+Add  ltg                            with p-value 3.03968e-20
+Add  map                            with p-value 3.74192e-05
+['bmi', 'ltg', 'map']
+```
+
+(3). For the diabetes dataset scale the input features by z-scores and then apply the ElasticNet model with alpha=0.1 and l1_ratio=0.5.  If we rank the variables in the decreasing order of the absolute value of the coefficients the top three variables (in order) are:
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import ElasticNet
+from sklearn.metrics import accuracy_score as acc
+
+# scale the dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+ss = StandardScaler()
+Xs_train = ss.fit_transform(X_train)
+Xs_test = ss.fit_transform(X_test)
+
+# create and apply model
+model = ElasticNet(alpha = 0.1, l1_ratio=0.5)
+model.fit(Xs_train, y_train)
+
+y_pred = model.predict(Xs_test)
+
+# ranking
+y_pred = abs(y_pred)
+
+print(y_pred)
+```
+answer:
+```
+bmi, ltg, map
+```
+
 (4).
-(5).
-(6).
-(7).
-(8).
+answer:
+```
+true
+```
+
+(5). In this problem consider 10-fold cross-validations and random_state=1693 for cross-validations and the decision tree. If you analyze the data with benign/malign tumors from breast cancer data with two features (radius_mean and texture_mean) and, according to what you learned about model selection, you try to determine the best maximum depth (in a range between 1 and 100) and the best  minimum samples per leaf (in a range between 1 and 25) the optimal pair of hyper-parameters (such as max depth and min leaf samples) is:
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score as acc
+
+
+tumors = datasets.load_breast_cancer()
+
+X = tumors.data
+y = tumors.target
+X = X[:,0:2]
+
+# evaluate a model using k-fold cross-validation
+def evaluate_model(dataX, dataY):
+	AC = []
+	# prepare cross validation
+	kfold = KFold(n_splits=10, random_state=1693, shuffle=True)
+	# enumerate splits
+	for train_ix, test_ix in kfold.split(dataX):
+		# define model
+		model = DecisionTreeClassifier(random_state=1693, max_depth=9, min_samples_leaf=22)
+		# select rows for train and test
+		trainX, trainY, testX, testY = dataX[train_ix], dataY[train_ix], dataX[test_ix], dataY[test_ix]
+		# fit model
+		history = model.fit(trainX, trainY)
+		# evaluate model
+		ypred = model.predict(testX)
+		# stores scores
+		AC.append(acc(testY, ypred))
+	return AC
+
+results = evaluate_model(X,y)
+print(np.mean(results))
+```
+ouput:
+```
+0.8857456140350877
+```
+answer:
+```
+19,5
+```
+
+(6). In this problem consider 10-fold cross-validations and random_state=12345 for cross-validations and the decision tree. If you analyze the data with benign/malign tumors from breast cancer data with two features (radius_mean and texture_mean) and, according to what you learned about model selection,  you try to determine the best maximum depth (in a range between 1 and 100) and the best  minimum samples per leaf (in a range between 1 and 25) the number of False Negatives is:
+```python
+def validation(X,y,k,model):
+  accuracy = []
+  pipe = Pipeline([('Classifier',model)])
+  kf = KFold(n_splits=k,shuffle=True,random_state=1693)
+  for idxtrain, idxtest in kf.split(X):
+    X_train = X[idxtrain,:]
+    y_train = y[idxtrain]
+    X_test = X[idxtest,:]
+    y_test = y[idxtest]
+    pipe.fit(X_train,y_train)
+    accuracy.append(accuracy_score(y_test,pipe.predict(X_test)))
+  return np.mean(accuracy)
+  
+model = tree.DecisionTreeClassifier(random_state=12345, max_depth=5, min_samples_leaf=19)
+features = ['mean radius', 'mean texture']
+X = df[features].values
+model.fit(X, y);
+pred = model.predict(X)
+
+spc = ['No Default','Default']
+cm = confusion_matrix(y, pred)
+pd.DataFrame(cm, columns=spc, index=spc)
+```
+answer:
+```
+22
+```
+
+(7). In this problem consider 10-fold cross-validations and random_state=1693 for cross-validations and the decision tree. If you analyze the data with benign/malign tumors from breast cancer data set with two features (radius_mean and texture_mean) and, according to what you learned about model selection,  you try to determine the best maximum depth (in a range between 1 and 100) and the best  minimum samples per leaf (in a range between 1 and 25) the accuracy is about:
+```python
+model = tree.DecisionTreeClassifier(random_state=1693, max_depth=5, min_samples_leaf=19)
+features = ['mean radius', 'mean texture']
+X = df[features].values
+print(validation(X, y, 10, model))
+```
+ouput:
+```
+0.8892543859649124
+```
+answer:
+```
+89%
+```
+(8). Maximum depth, minimum node size, and learning rate are all examples of:
+answer:
+```
+hyperparameters
+```
+
 (9).
-(10).
+answer:
+```
+all are correct
+```
+
+(10). A good reason for implementing a feature selection technique is:
+answer:
+```
+to create a parsimonious model
+```
+
+(11). Principal Component Analysis:
+answer:
+```
+Determining the directions along which we maximize the variance of the input features.
+```
+
+(12). In this problem the input features will be scaled by the z-scores and consider a use a random_state=1234. If you analyze the data with benign/malign tumors from breast cancer data, consider a decision tree with max_depth=10,min_samples_leaf=20 and fit on 9 principal components the number of true positives is:
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.tree import DecisionTreeClassifier
+
+tumors = datasets.load_breast_cancer()
+
+X = tumors.data
+y = tumors.target
+
+dt = DecisionTreeClassifier(random_state=1234, max_depth=10, min_samples_leaf=20)
+pca = PCA(n_components=9)
+
+ss = StandardScaler()
+Xs = ss.fit_transform(X)
+ 
+pca.fit_transform(Xs)
+```
+answer:
+```
+178
+```
