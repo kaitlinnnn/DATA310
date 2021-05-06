@@ -866,7 +866,7 @@ answer:
 bmi, ltg, map
 ```
 
-(4).
+(4). A k-fold cross-validation can be used to determine the best choice of hyper-parameters from a finite set of choices.
 answer:
 ```
 true
@@ -914,7 +914,7 @@ ouput:
 ```
 answer:
 ```
-19,5
+(4,23)
 ```
 
 (6). In this problem consider 10-fold cross-validations and random_state=12345 for cross-validations and the decision tree. If you analyze the data with benign/malign tumors from breast cancer data with two features (radius_mean and texture_mean) and, according to what you learned about model selection,  you try to determine the best maximum depth (in a range between 1 and 100) and the best  minimum samples per leaf (in a range between 1 and 25) the number of False Negatives is:
@@ -962,13 +962,13 @@ answer:
 ```
 89%
 ```
-(8). Maximum depth, minimum node size, and learning rate are all examples of:
+(8). Maximum depth, minimum node size, and learning rate are all examples of what type of parameters?
 answer:
 ```
 hyperparameters
 ```
 
-(9).
+(9). Selecting an appropriate model requires:
 answer:
 ```
 all are correct
@@ -980,7 +980,7 @@ answer:
 to create a parsimonious model
 ```
 
-(11). Principal Component Analysis:
+(11). The concept of Principal Component Analysis refers to:
 answer:
 ```
 Determining the directions along which we maximize the variance of the input features.
@@ -1007,5 +1007,5 @@ pca.fit_transform(Xs)
 ```
 answer:
 ```
-178
+196
 ```
